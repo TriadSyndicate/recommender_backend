@@ -18,7 +18,8 @@ router.post('/location/details', [
 
 router.get('/attraction/:attractionId', (req, res) => {
     res.json({
-        attraction: req.attraction
+        attraction: req.attraction,
+        category:req.category
     })
 })
 router.param('attractionId', attractionById)
