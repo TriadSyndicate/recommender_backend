@@ -157,7 +157,7 @@ async function getAttractionCategories(attractionsArr, res) {
       if (att) {
         let p = await att.data;
         if (p.get("subcategory") !== undefined) {
-          arr.push(p.get("subcategory"));
+          arr.push(p.get("subcategory")[0]);
         }
       } else {
         console.error(att);
