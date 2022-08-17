@@ -117,6 +117,37 @@ exports.getCategoriesFromAttractionArray = (req, res) => {
   //   });
 };
 
+exports.getAttractionsFromArray = (req, res) => {
+  var attractionsArr = req.body.attractions;
+  getAttractions(attractionsArr, res);
+};
+
+async function getAttractions(attractionsArr, res) {
+  let arr = [];
+  for (let i = 0; i < attractionsArr.length; i++) {
+    const e = attractionsArr[i];
+    try {
+      let att = await Attraction.findById(e).exec();
+      if (att) {
+        let p = await att.data;
+        if (p.get("subcategory") !== undefined) {
+          arr.push(att);
+        }
+      } else {
+        console.error(att);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (i === attractionsArr.length - 1) {
+      return res.json({
+        response: arr,
+      });
+    }
+  }
+}
+
 async function getAttractionCategories(attractionsArr, res) {
   let arr = [];
   for (let i = 0; i < attractionsArr.length; i++) {
