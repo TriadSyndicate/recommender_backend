@@ -110,6 +110,7 @@ exports.attractionById = (req, res, next, id) => {
 
 exports.getCategoriesFromAttractionArray = (req, res) => {
   var attractionsArr = req.body.attractions;
+  console.log(req.body)
   getAttractionCategories(attractionsArr, res);
   //   attractionsArr.forEach(f => {
   //     let e = Attraction.findById(f).exec()
