@@ -7,6 +7,8 @@ const {
   attractionById,
   getCategoriesFromAttractionArray,
   getAttractionsFromArray,
+  postFeedback,
+  getFeedback,
 } = require("../controllers/getLocation");
 const router = express.Router();
 const { check } = require("express-validator");
@@ -54,5 +56,20 @@ router.post(
   requestValidator,
   getAttractionsFromArray
 );
+
+router.post(
+  "/feedback/attraction",
+  [
+    check("emote").exists(),
+    check("feedback").exists(),
+    check("uid").exists(),
+    check("attractionId").exists(),
+  ],
+  requestValidator,
+  postFeedback
+);
+
+router.get("/feedback/attraction/:attractionId", getFeedback);
+router.param("attractionId", getFeedback);
 
 module.exports = router;

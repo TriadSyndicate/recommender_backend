@@ -9,3 +9,5 @@ const feedbackSchema = new mongoose.Schema({
     // Review of Attraction
     feedback: { type: String, trim: true, require: true }
 })
+
+module.exports = mongoose.model('Feedback', feedbackSchema)

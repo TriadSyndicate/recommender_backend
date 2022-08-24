@@ -1,6 +1,7 @@
 const axios = require("axios");
 const Location = require("../models/location");
 const Attraction = require("../models/attraction");
+const Feedback = require("../models/feedback");
 require("dotenv").config();
 const rapidapiHeaders = {
   headers: {
@@ -123,6 +124,44 @@ exports.getAttractionsFromArray = (req, res) => {
   getAttractions(attractionsArr, res);
 };
 
+exports.postFeedback = async (req, res) => {
+  var attractionId = req.body.attractionId;
+  var uidx = req.body.uid;
+  var emotex = req.body.emote;
+  var feedbackx = req.body.feedback;
+
+  var Attractionx = await Attraction.findById(attractionId).exec();
+  const feed = new Feedback({
+    attractionID: Attractionx._id,
+    uid: uidx,
+    emote: emotex,
+    feedback: feedbackx,
+  });
+
+  feed.save((err, ff) => {
+    if (ff) {
+      return res.json({
+        feedbackId: ff._id,
+        attraction: Attractionx,
+      });
+    }
+  });
+};
+
+exports.getFeedback = async (req,res,next,id)=>{
+  var attId = id
+  let result = await getFeedbackByAttractionId(attId)
+  if (result===null) {
+    return res.json({
+      result: 0
+    })
+  } else {
+    return res.json({
+      result: result
+    })
+  }
+}
+
 async function getAttractions(attractionsArr, res) {
   let arr = [];
   for (let i = 0; i < attractionsArr.length; i++) {
@@ -217,6 +256,15 @@ async function getLocationIfExists(location) {
     return x;
   } else {
     return await updateLocationWithAttractions(x._id);
+  }
+}
+
+async function getFeedbackByAttractionId(attId){
+  let p = await Feedback.find({attractionID: attId}).exec()
+  if (p===null) {
+    return p
+  }else{
+    return p
   }
 }
 
