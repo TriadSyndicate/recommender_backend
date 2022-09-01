@@ -62,8 +62,8 @@ exports.respondLocation = (req, res) => {
 };
 
 exports.getAttractionsAndStore = (req, res) => {
-  // var location = { name: req.body.name, geoId: req.body.geoId };
-  var location = { name: "Nairobi", geoId: "294207" };
+  var location = { name: req.body.name, geoId: req.body.geoId };
+  // var location = { name: "Nairobi", geoId: "294207" };
   getLocationIfExists(location).then((locationExists) => {
     if (locationExists === null) {
       getAttractionList(req.body.geoId).then((attractions) => {
